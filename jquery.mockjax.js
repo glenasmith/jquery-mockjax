@@ -360,8 +360,8 @@
 		// Handle JSONP-style loading
 		window[ jsonp ] = window[ jsonp ] || function( tmp ) {
 			data = tmp;
-			jsonpSuccess( requestSettings, mockHandler );
-			jsonpComplete( requestSettings, mockHandler );
+			jsonpSuccess( requestSettings, mockHandler, callbackContext );
+			jsonpComplete( requestSettings, mockHandler, callbackContext );
 			// Garbage collect
 			window[ jsonp ] = undefined;
 
@@ -376,7 +376,7 @@
 	}
 
 	// The JSONP request was successful
-	function jsonpSuccess(requestSettings, mockHandler) {
+	function jsonpSuccess(requestSettings, mockHandler, callbackContext) {
 		// If a local callback was specified, fire it and pass it the data
 		if ( requestSettings.success ) {
 			requestSettings.success.call( callbackContext, ( mockHandler.response ? mockHandler.response.toString() : mockHandler.responseText || ''), status, {} );
@@ -389,7 +389,7 @@
 	}
 
 	// The JSONP request was completed
-	function jsonpComplete(requestSettings, mockHandler) {
+	function jsonpComplete(requestSettings, mockHandler, callbackContext) {
 		// Process result
 		if ( requestSettings.complete ) {
 			requestSettings.complete.call( callbackContext, {} , status );
